@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizMaster Pro | Sign Up</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+/* =========================================================================
+   --- PREMIUM GLASSMORPHISM MODAL DESIGN SYSTEMS ---
+   ========================================================================= */
+.custom-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6); /* Modern deep slate backdrop */
+    backdrop-filter: blur(8px); /* Blur behind the popup */
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999; /* Force it to stay on top of everything */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Block clicks when hidden */
+}
+
+/* When the JavaScript adds the .active class, smoothly fade it in */
+.custom-popup-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.custom-popup-box {
+    background: rgba(255, 255, 255, 0.85); /* Clean light theme glass base to match your inputs */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    padding: 2.2rem 2rem;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 85%;
+    text-align: center;
+    
+    /* Animation start point: Shrunk down and pushed slightly up */
+    transform: scale(0.85) translateY(-20px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Sharp bounciness */
+}
+
+/* When active, pop out with a crisp bounce transition */
+.custom-popup-overlay.active .custom-popup-box {
+    transform: scale(1) translateY(0);
+}
+
+.custom-popup-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1e293b; /* Sleek dark text */
+    margin-bottom: 0.6rem;
+}
+
+.custom-popup-msg {
+    font-size: 0.95rem;
+    color: #475569; /* Slate grey body */
+    margin-bottom: 1.6rem;
+    line-height: 1.5;
+}
+
+.custom-popup-btn {
+    background: #2563eb; /* Clean blue accent to match your "Register" button */
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.7rem 2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.custom-popup-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+
+.custom-popup-btn:active {
+    transform: translateY(0);
+}
+</style>
+</head>
+<body>
+  <main class="login-page">
+    <section class="card login-card">
+      <div class="center">
+        <span class="logo-mark">Q</span>
+        <h2>Create Account</h2>
+        <p>Register your details to access the quiz portal.</p>
+      </div>
+
+      <form id="signup-form">
+        <label class="field">
+          <span>Full Name</span>
+          <input type="text" id="signup-name" placeholder="Enter your full name" required>
+        </label>
+
+        <label class="field">
+          <span>ID Number / Matric No</span>
+          <input type="text" id="signup-id" placeholder="Create your ID number" required>
+        </label>
+
+        <button type="submit" class="button primary full">Register</button>
+        <p class="center" style="margin-top: 1rem;">
+          Already have an account? <a href="index (1).html">Login here</a>
+        </p>
+      </form>
+    </section>
+  </main>
+  <script src="signup.js"></script>
+</body>
+</html>

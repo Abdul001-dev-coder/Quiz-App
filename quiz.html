@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizMaster Pro | Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+/* =========================================================================
+   --- PREMIUM GLASSMORPHISM MODAL DESIGN SYSTEMS ---
+   ========================================================================= */
+.custom-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6); /* Modern deep slate backdrop */
+    backdrop-filter: blur(8px); /* Blur behind the popup */
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999; /* Force it to stay on top of everything */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Block clicks when hidden */
+}
+
+/* When the JavaScript adds the .active class, smoothly fade it in */
+.custom-popup-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.custom-popup-box {
+    background: rgba(255, 255, 255, 0.85); /* Clean light theme glass base to match your inputs */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    padding: 2.2rem 2rem;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 85%;
+    text-align: center;
+    
+    /* Animation start point: Shrunk down and pushed slightly up */
+    transform: scale(0.85) translateY(-20px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Sharp bounciness */
+}
+
+/* When active, pop out with a crisp bounce transition */
+.custom-popup-overlay.active .custom-popup-box {
+    transform: scale(1) translateY(0);
+}
+
+.custom-popup-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1e293b; /* Sleek dark text */
+    margin-bottom: 0.6rem;
+}
+
+.custom-popup-msg {
+    font-size: 0.95rem;
+    color: #475569; /* Slate grey body */
+    margin-bottom: 1.6rem;
+    line-height: 1.5;
+}
+
+.custom-popup-btn {
+    background: #2563eb; /* Clean blue accent to match your "Register" button */
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.7rem 2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.custom-popup-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+
+.custom-popup-btn:active {
+    transform: translateY(0);
+}
+</style>
+</head>
+<body>
+  <header class="topbar">
+     <a class="logo" href="#"> 
+      <span>Q</span>
+      QuizMaster Pro
+    </a>
+    <div class="timer" id="quiz-timer-display" style="display: none;">Time: 30:00</div>
+  </header>
+
+  <main class="page quiz-layout">
+    
+    <div class="main-content-wrapper" style="width: 100%;">
+      
+      <section class="card" id="quiz-start-screen" style="display: flex; flex-direction: column; gap: 1.5rem; padding: 2rem; margin-bottom: 2rem;">
+        <div class="quiz-head">
+          <div>
+            <p class="tag">Student Dashboard</p>
+            <h1 style="font-size: 2rem; margin-top: 0.5rem;">Welcome Back to Foundations</h1>
+          </div>
+        </div>
+        
+        <div style="margin-top: 1rem;">
+          <h2 style="font-size: 1.2rem; margin-bottom: 0.75rem; color: #cbd5e1;">Your Past Verified Attempt Logs</h2>
+          <div style="overflow-x: auto; background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+              <thead>
+                <tr style="border-bottom: 2px solid rgba(255, 255, 255, 0.1); color: #64748b;">
+                  <th style="padding: 0.75rem 0;">Date/Time</th>
+                  <th>Score</th>
+                  <th>Percentage</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+              <tbody id="quiz-page-history-body">
+                </tbody>
+            </table>
+          </div>
+        </div>
+
+        <button class="button primary" id="real-start-btn" style="padding: 1rem 2rem; font-size: 1.1rem; font-weight: 700; align-self: center; margin-top: 1rem; width: 100%; max-width: 250px;">
+          🚀 Start Assessment
+        </button>
+      </section>
+
+      <section class="card question-card" id="quiz-active-screen" style="display: none;">
+        <div class="quiz-head">
+          <div>
+            <p class="tag">Computer Science</p>
+            <h1>Web Development Foundations</h1>
+          </div>
+          <strong id="question-tracker">Question 1 of 30</strong>
+        </div>
+
+        <div class="progress">
+          <span id="quiz-progress-bar"></span>
+        </div>
+
+        <h2 id="question-text">Question text will load here...</h2>
+
+        <fieldset class="answers" id="options-container">
+          <legend class="sr-only">Answer options</legend>
+        </fieldset>
+
+        <div class="actions">
+          <button class="button" id="prev-btn">Previous</button>
+          <button class="button primary" id="next-btn">Next</button>
+          <button class="button danger" id="submit-btn" style="display: none;">Submit Assessment</button>
+        </div>
+      </section>
+    </div>
+
+    <aside class="sidebar">
+      <section class="card">
+        <div class="student">
+          <div class="avatar" id="student-avatar">ST</div>
+          <div>
+            <h2 id="student-name">Student Name</h2>
+            <p id="student-id-display">Student ID</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Summary</h2>
+        <ul class="summary">
+          <li><span>Total Questions</span><strong id="summary-total-count">30</strong></li>
+          <li><span>Answered</span><strong id="summary-answered-count">-</strong></li>
+          <li><span>Remaining</span><strong id="summary-remaining-count">-</strong></li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Questions</h2>
+        <div class="numbers" id="question-matrix-grid">
+          </div>
+      </section>
+    </aside>
+  </main>
+
+  <script src="quiz.js"></script>
+</body>
+</html>
