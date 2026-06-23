@@ -29,49 +29,56 @@ function showAnimatedPopup(title, message, onConfirm) {
             overlay.classList.remove("active");
             setTimeout(() => {
                 overlay.remove(); // Completely clear from HTML memory
-                if (onConfirm) onConfirm(); // Fire any redirect codes or dashboard updates smoothly!
-            }, 300); // 300ms matches the smooth fade out beautifully
+                if (onConfirm) onConfirm(); // Fire any redirect codes smoothly!
+            }, 300); // Smooth 300ms fade away
         });
     }
 }
 
-// Target the login form element from index.html
-const loginForm = document.getElementById('login-form');
+const signupForm = document.getElementById('signup-form');
 
-// Listen for when the student clicks "Login" or presses Enter
-loginForm.addEventListener('submit', function(event) {
-    // Stop the page from instantly reloading or redirecting automatically
-    event.preventDefault(); 
-    
-    // Grab the ID typed by the user and trim off any accidental spaces
-    const enteredID = document.getElementById('student-id').value.trim();
-    
-    // 1. Fetch the dynamic list of registered students from localStorage
-    // If no one has signed up yet, default to an empty array []
-    const storedStudents = JSON.parse(localStorage.getItem('registeredStudents')) || [];
-    
-    // 2. Check if the entered ID matches any student in our registered list
-    const matchedStudent = storedStudents.find(student => student.id === enteredID);
-    
-    if (matchedStudent) {
-        // ID verified! Save their individual session data to localStorage
-        localStorage.setItem("currentStudentName", matchedStudent.name);
-        localStorage.setItem("currentStudentID", matchedStudent.id);
-        
-        // Clear any leftover scores from a previous quiz attempt
-        localStorage.removeItem("quizScore"); 
-        
-        // Take them straight to the quiz panel
-        window.location.href = "quiz.html";
-    } else {
-        // ID doesn't exist in localStorage - REPLACED WITH ANIMATED MODAL
+signupForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const nameInput = document.getElementById('signup-name').value.trim();
+    const idInput = document.getElementById('signup-id').value.trim();
+
+    // 1. Pull existing registered students from localStorage
+    let storedStudents = JSON.parse(localStorage.getItem('registeredStudents')) || [];
+
+    // 2. Check if the ID number is already taken
+    const idExists = storedStudents.some(student => student.id === idInput);
+
+    if (idExists) {
+        // REPLACED WITH AN ANIMATED POPUP MODAL
         showAnimatedPopup(
-            "🔒 Access Denied", 
-            "The Student ID entered was not recognized. Please verify your credentials or register a new profile below!",
+            "⚠️ Profile Conflict", 
+            "This Student ID number is already registered within our local database ledger! Please log in or verify your entry.",
             () => {
-                // Keep them on the page so they can try again or click sign up
-                document.getElementById('student-id').focus();
+                document.getElementById('signup-id').focus();
             }
         );
+        return;
     }
+
+    // 3. Create the new student object and save it to the master list
+    const newStudent = { name: nameInput, id: idInput };
+    storedStudents.push(newStudent);
+    localStorage.setItem('registeredStudents', JSON.stringify(storedStudents));
+
+    // 4. AUTOMATIC LOGIN: Immediately set their active login session keys
+    localStorage.setItem("currentStudentName", newStudent.name);
+    localStorage.setItem("currentStudentID", newStudent.id);
+    
+    // Clear any residual scores from past sessions
+    localStorage.removeItem("quizScore");
+
+    // 5. Instantly jump directly to the quiz page using our smooth animated engine!
+    showAnimatedPopup(
+        "🚀 Profile Synchronized", 
+        `Welcome aboard, ${newStudent.name}! Your workspace environment keys have been registered. Launching assessment dashboard...`,
+        () => {
+            window.location.href = "quiz.html";
+        }
+    );
 });

@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QuizMaster Pro | Login</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>QuizMaster Pro | Sign Up</title>
   <link rel="stylesheet" href="styles.css">
   <style>
 /* =========================================================================
@@ -98,21 +95,29 @@
 </head>
 <body>
   <main class="login-page">
-    <section class="card login-card" aria-labelledby="login-title">
+    <section class="card login-card">
       <div class="center">
         <span class="logo-mark">Q</span>
-        <h2 id="login-title">Welcome Back</h2>
-        <p>Enter your student ID to start your quiz.</p>
+        <h2>Create Account</h2>
+        <p>Register your details to access the quiz portal.</p>
       </div>
 
-      <form id="login-form">
-  <label class="field">
-    <span>ID Number</span>
-    <input type="text" id="student-id" placeholder="Enter your ID number" required>
-  </label>
+      <form id="signup-form">
+        <label class="field">
+          <span>Full Name</span>
+          <input type="text" id="signup-name" placeholder="Enter your full name" required>
+        </label>
 
-  <button type="submit" class="button primary full">Login</button>
-</form>
+        <label class="field">
+          <span>ID Number / Matric No</span>
+          <input type="text" id="signup-id" placeholder="Create your ID number" required>
+        </label>
+
+        <button type="submit" class="button primary full">Register</button>
+        <p class="center" style="margin-top: 1rem;">
+          Already have an account? <a href="login.html">Login here</a>
+        </p>
+      </form>
     </section>
   </main>
   <script src="index.js"></script>

@@ -273,7 +273,7 @@ if (logoutBtn) {
                 localStorage.removeItem("savedUserAnswers");
                 localStorage.removeItem("savedQuizBank");
                 
-                window.location.assign("./index (1).html");
+                window.location.assign("./login.html");
             },
             true
         );
